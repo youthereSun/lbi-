@@ -12,7 +12,8 @@ export default {
   data(){
     return{
       attributes:{
-        code:"322231"
+        code:"322231",
+
       }
     }
   },

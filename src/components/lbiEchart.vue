@@ -1,14 +1,16 @@
 <template>
-  <div id="lbi_echart" style="width: 100%;height: 100%">
+  <div id="lbi_echart" >
     <div v-show="showAlert">无对应数据，请检查code</div>
-    <filter-checkboxs  :dimension-list="dimensions" @emit-dimension="refreshDataByDimension"></filter-checkboxs>
+
     <div v-show="!showSub">
-      <div id="myCharts" ref="myCharts"></div>
+      <div id="myCharts" ref="myCharts"  :style="{width:attributes.width||'100%',height:attributes.height||'500px'}"></div>
     </div>
     <div v-show="showSub">
       <button @click="showSub=false">返回</button>
-      <div id="mySubCharts" ref="mySubCharts"></div>
+      <div id="mySubCharts" ref="mySubCharts" :style="{width:attributes.width||'100%',height:attributes.height||'500px'}"></div>
     </div>
+
+    <filter-checkboxs  :dimension-list="dimensions" @emit-dimension="refreshDataByDimension"></filter-checkboxs>
     <div>
 
     </div>
@@ -164,7 +166,7 @@
         }
         this. dimensions= await this.getDataDimension(params)
         return new Promise((resolve, reject) => {
-          this.$http.post('/handler/biHandler/echartGetAction', params).then(function (res) {
+          this.$http.post(this.HOST+'/handler/biHandler/echartGetAction', params).then(function (res) {
             resolve(res)
             // eslint-disable-next-line handle-callback-err
           }, function (error) {
@@ -174,7 +176,7 @@
       },
       getSubConfigurationByCode(params) {
         return new Promise((resolve, reject) => {
-          this.$http.post('/handler/biHandler/echartGetAction', params).then(function (res) {
+          this.$http.post(this.HOST+'/handler/biHandler/echartGetAction', params).then(function (res) {
             resolve(res)
             // eslint-disable-next-line handle-callback-err
           }, function (error) {
@@ -184,7 +186,7 @@
       },
       async getDataDimension(params) {
         return new Promise((resolve, reject) => {
-          this.$http.post('/handler/biHandler/dataDimensionGet', params).then(function (res) {
+          this.$http.post(this.HOST+'/handler/biHandler/dataDimensionGet', params).then(function (res) {
 
             resolve(res.data)
             // eslint-disable-next-line handle-callback-err
@@ -218,9 +220,6 @@
 
 <style scoped>
 
-  #myCharts, #mySubCharts {
-    width: 800px;
-    height: 500px;
-  }
+
 
 </style>
